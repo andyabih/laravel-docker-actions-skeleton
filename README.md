@@ -8,7 +8,7 @@ Due to the fact that you can't create a new Laravel project in a non-empty direc
 2. Clone this repository to a brand new folder outside your Laravel project.
 3. Copy all the files that were cloned into your Laravel project.
 4. Configure the environment by following the steps below.
-5. Set up two branches on your repo. A `main` brancha and a `production` branch.
+5. Set up two branches on your repo. A `main` branch and a `production` branch.
 6. When you want to deploy to the server, simply push your changes to the `main` branch, and run the `deploy.sh` script which will merge your work to the `production` branch and run the workflow to deploy to the server.
 7. To run the docker container, use the command the below command replacing the docker-compose file for different environments.
 ```
@@ -56,6 +56,6 @@ This docker-compose file should not be just copy pasted and ran. It primarily de
 
 The version in this repo assumes you have an external database server and not on the same server. If that is not the case, please incorporate the MySQL service from the local docker-compose file as well as the .env variables.
 
-In addition, it uses Traefik to properly route everything and set up SSL certificates. [DigitalOcean have a brilliant article](https://www.digitalocean.com/community/tutorials/how-to-use-traefik-v2-as-a-reverse-proxy-for-docker-containers-on-ubuntu-20-04) explaining all about setting Traefik up and using it as a reverse proxy for Docker containers. Highly suggest using that.
+In addition, it uses Traefik to properly route everything and set up SSL certificates. [DigitalOcean have a great article](https://www.digitalocean.com/community/tutorials/how-to-use-traefik-v2-as-a-reverse-proxy-for-docker-containers-on-ubuntu-20-04) explaining all about setting Traefik up and using it as a reverse proxy for Docker containers. Highly suggest using that.
 
 If you are using Traefik, be sure to modify line 38 (`traefik.frontend.rule`) with the domain to your application.
