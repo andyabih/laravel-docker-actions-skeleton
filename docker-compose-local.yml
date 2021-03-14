@@ -1,0 +1,64 @@
+#############################################################
+###########            Yellow Digital             ###########
+###########    Docker Compose for Local Server    ###########
+###########           Laravel Projects            ########### 
+###########          Includes Database            ###########
+#############################################################
+
+version: '3.4'
+
+services:
+    # PHP Service
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: digitalocean.com/php
+        container_name: ${DOCKER_APP_NAME}-app
+        restart: unless-stopped
+        tty: true
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - app-network
+    
+    # Nginx Service
+    webserver:
+        image: nginx:alpine
+        container_name: ${DOCKER_APP_NAME}-webserver
+        restart: unless-stopped
+        tty: true
+        ports: 
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network
+
+    # Database service
+    db:
+        image: mysql:${MYSQL_VERSION}
+        container_name: ${DOCKER_APP_NAME}-db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "${MYSQL_PORT}:${MYSQL_PORT}"
+        volumes:
+            - dbdata:/var/lib/mysql/
+            - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+        networks:
+            - app-network
+    
+# Networks
+networks:
+    app-network:
+        driver: bridge
+
+# Volumes
+volumes:
+    dbdata:
+        driver: local

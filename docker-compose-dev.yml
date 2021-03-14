@@ -1,0 +1,54 @@
+#############################################################
+###########            Yellow Digital             ###########
+########### Docker Compose for Development Server ###########
+###########           Laravel Projects            ########### 
+###########             No Database               ###########
+#############################################################
+
+version: '3.4'
+
+services:
+    # PHP Service
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: digitalocean.com/php
+        container_name: ${DOCKER_APP_NAME}-app
+        restart: unless-stopped
+        tty: true
+        user: ${CURRENT_UID}
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - app-network
+        labels:
+            - traefik.enable=false
+
+    # Nginx Service
+    webserver:
+        image: nginx:alpine
+        container_name: ${DOCKER_APP_NAME}-webserver
+        restart: unless-stopped
+        tty: true
+        labels:
+            - traefik.backend=${DOCKER_APP_NAME}
+            - traefik.frontend.rule=Host:${DOCKER_APP_NAME}.com
+            - traefik.docker.network=web
+            - traefik.port=80
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network
+            - web
+
+# Networks
+networks:
+    app-network:
+        driver: bridge
+        external: false
+    web:
+        external: true
