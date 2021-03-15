@@ -33,7 +33,7 @@ A sample .env file is included in the repository. Please add the configuration i
 `DOCKER_APP_NAME` is required for both environments and is used to create the docker containers, whereas the remaining MySQL variables are only required if you are using the `docker-compose-local.yml` file. 
 
 ## Dockerfile
-Currently the two available versions for this skeleton are PHP 8.0 & PHP 7.4. To change between images, change the `FROM` value to either `FROM yllwdigital/yllwdev:8.0` or `FROM yllwdigital/yllwdev:7.4`
+Currently the two available versions for this skeleton are PHP 8.0 & PHP 7.4. To change between images, change the `FROM` value to either `FROM yllwdigital/yllwdev:latest` or `FROM yllwdigital/yllwdev:7.4`
 
 ## server_deploy.sh
 Add any additional steps you need to run while deploying (queues, for example) into that script.

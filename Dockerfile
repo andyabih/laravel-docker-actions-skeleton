@@ -1,1 +1,1 @@
-FROM yllwdigital/yllwdev:8.0
+FROM yllwdigital/yllwdev:latest
