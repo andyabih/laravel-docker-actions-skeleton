@@ -34,8 +34,7 @@ services:
         restart: unless-stopped
         tty: true
         labels:
-            - traefik.backend=${DOCKER_APP_NAME}
-            - traefik.frontend.rule=Host:${DOCKER_APP_NAME}.com
+            - traefik.http.routers.webserver.rule=Host(`${DOCKER_APP_NAME}.com`)
             - traefik.docker.network=web
             - traefik.port=80
         volumes:
